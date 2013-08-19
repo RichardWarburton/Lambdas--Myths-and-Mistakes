@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Lambdas: Myths and Mistakes</title>
+
+		<meta name="description" content="">
+		<meta name="author" content="Richard Warburton">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="reveal.js/css/reveal.min.css">
+		<link rel="stylesheet" href="reveal.js/css/theme/night.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="reveal.js/lib/css/zenburn.css">
+		
+        <link rel="stylesheet" href="extra.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="reveal.js/css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="reveal.js/lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+		<div class="reveal">
+			<div class="slides">
+
+				<section>
+					<h1>Lambdas: Myths and Mistakes</h1>
+					<h3>by Richard Warburton</h3>
+
+					<aside class="notes">
+					</aside>
+				</section>
+
+				<section>
+                    <blockquote>
+                        Learning FP is so much more than just knowing what map/fold/filter/etc. do. 
+                        It's more like getting good at Portal :)
+                    </blockquote>
+                    <p>@copumpkin</p>
+
+					<aside class="notes">
+                        Before we go into details ...
+                        <br /> Explain quote
+					</aside>
+
+				</section>
+				
+                <section>
+                    <h2>Who am I?</h2>
+                    <ul>
+                        <li class="fragment roll-in">Currently work at jClarity</li>
+                        <li class="fragment roll-in">PhD</li>
+                        <li class="fragment roll-in">Adopt a JSR (Date and Time + Lambdas)</li>
+                        <li class="fragment roll-in">Writing a book for O'Reilly Media on Lambda Expressions in Java 8.</li>
+                    </ul>
+
+                    <aside class="notes">
+                        Taught Functional during PhD
+                        <br />
+					</aside>
+				</section>
+
+                <section>
+                    <ul>
+                        <li>Motivation</li>
+                        <li>Introduction to Lambda Expressions</li>
+                        <li>Beyond </li>
+                        <li>Common Mistakes</li>
+                    </ul>
+                    <aside class="notes">
+                        define structure of the talk
+					</aside>
+				</section>
+
+                <section>
+                    <blockquote>
+                        Yeah, I liked the # syntax proposal better, too.  One less character
+                        to type!  :)
+                    </blockquote>
+				</section>
+
+                <section>
+                    <blockquote>
+                        Have you considered 'default null'?  It will save a keyword
+                    </blockquote>
+				</section>
+
+                <section>
+                    <blockquote>
+                        How about a single punctuation mark, currently unused, as syntax sugar
+                        for "()->".
+                    </blockquote>
+				</section>
+
+                <section>
+                    <blockquote>
+                        This is starting to look like risque ASCII art :)
+                    </blockquote>
+				</section>
+
+                <section>
+                    <h1>Conclusion</h1>
+
+                    <ul>
+                    </ul>
+
+                    <aside class="notes">
+                    </aside>
+                </section>
+
+                <section>
+                    <h1>Questions?</h1>
+                    <p>@RichardWarburto<p>
+                    <p><a href="http://insightfullogic.com">http://insightfullogic.com</a></p>
+                    <p><a href="https://github.com/RichardWarburton/">https://github.com/RichardWarburton/</a></p>
+                </section>
+
+            </div>
+        </div>
+
+        <script src="reveal.js/lib/js/head.min.js"></script>
+        <script src="reveal.js/js/reveal.min.js"></script>
+
+        <script>
+            // Full list of configuration options available here:
+            // https://github.com/hakimelreveal.js#configuration
+            Reveal.initialize({
+                controls: true,
+                progress: true,
+                history: true,
+                center: true,
+
+                theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+                transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+                // Optional libraries used to extend on reveal.js
+                dependencies: [
+                    { src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                    { src: 'reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: 'reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+                    { src: 'reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+                    // { src: 'plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }
+                    // { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+                ]
+            });
+        </script>
+
+</body>
+</html>
+
