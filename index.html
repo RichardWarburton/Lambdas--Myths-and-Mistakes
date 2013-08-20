@@ -381,6 +381,64 @@ consider example of comparator
 -->
 
                 <section>
+                    <h2>Compiler Error Messages</h2>
+                    <aside class="notes">
+                        Very important
+                        <br /> influential in the learning process.
+                        <br /> Are they idiomatic? Are they easy to understand?
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Introductory Example</h2>
+                    <pre><code>
+Comparator<String> comparator = comparing(String::length);
+
+Comparator<String> comparator = comparing(str -> str.length);
+                    </code></pre>
+                    <aside class="notes">
+                        Comparator is a functional interface.
+                        <br /> provides some static methods for comparing by keys
+                        <br /> explanatory example
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Compiler Error</h2>
+                    <pre><code>
+java: reference to comparing is ambiguous both
+    method <T>comparing(java.util.function.ToIntFunction<? super T>) in java.util.Comparator and
+    method <T,U>comparing(java.util.function.Function<? super T,? extends U>) in java.util.Comparator match
+                    </code></pre>
+                    <aside class="notes">
+                        Overload resolution failure.
+                        <br /> current state of play, but not likely to have a language fix
+                        <br /> may change libraries
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>What happened?</h2>
+                    <pre><code>
+// Generic object variant
+public static <T, U extends Comparable<? super U>>
+    Comparator<T>
+        comparing(Function<? super T, ? extends U> keyExtractor)
+
+// Specialised primitive variant
+public static <T>
+    Comparator<T>
+        comparing(ToIntFunction<? super T> keyExtractor)
+                    </code></pre>
+                    <aside class="notes">
+                        overloads are an issue
+                        <br /> explain primitive specialised variant
+                        <br /> overloads + type inference can be a bad combo, quite unusual
+                        <br /> recommendation to library writers: don't overload on functional interfaces
+                    </aside>
+                </section>
+
+                <section>
                     <h2>Summary</h2>
                     <ul>
                         <li>Syntax important, but not in the way people think</li>
@@ -423,6 +481,15 @@ numbers.forEach(x -> {
                     <aside class="notes">
                         Pretty consistent in understanding internal vs external iteration.
                         <br /> not initially trying higher order functions.
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Non-idiomatic Proposals</h2>
+                    <p>Eg: capture non-final local variables</p>
+                    <aside class="notes">
+                        A lot of people want features which aren’t in the direction of java 8
+                        <br /> doesn't make parallelism easier.
                     </aside>
                 </section>
 
@@ -476,16 +543,66 @@ reader.lines()
                 </section>
 
                 <section>
+                    <h2>Bad Solution (Part 1)</h2>
+                    <pre><code>
+Map<String, List<String>> initial
+      = br.lines()
+          .flatMap(s -> Arrays.stream(s.split(" ")))
+          .collect(groupingBy(s -> s));
+  
+  Map<Map.Entry<String, Integer>, Integer> freq1 = initial
+    .entrySet().stream()
+    .map(entry -> new AbstractMap.SimpleImmutableEntry<String,
+Integer>(entry.getKey(), entry.getValue().size()))
+    .collect(Collectors.toMap(entry -> entry.getValue()));
+                    </pre></code>
+                    <aside class="notes">
+                        nearly right to begin with
+                        <br />building the map up
+                        <br />doesn't realise about downstream collectors
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Bad Solution (Part 2)</h2>
+                    <pre><code>
+  Supplier<HashMap<String, Integer>> supplier = () -> new
+HashMap<String, Integer>();
+  BiConsumer<HashMap<String, Integer>, Map.Entry<String, Integer>> accum =
+    (HashMap<String, Integer> result, Map.Entry<String, Integer>
+entry) -> result.put(entry.getKey(), entry.getValue());
+  BiConsumer<HashMap<String, Integer>, HashMap<String, Integer>>
+merger = HashMap::putAll;
+
+  Map<String, Integer> freq2 = initial.entrySet().stream()
+    .map(entry -> new AbstractMap.SimpleImmutableEntry<String,
+Integer>(entry.getKey(), entry.getValue().size()))
+    .collect(supplier, accum, merger);
+                    </pre></code>
+                    <aside class="notes">
+                        downhill from there, don't worry about understanding this code
+                        <br /> make point of weird approach if things start looking like this
+                        <br /> also, choose first steps wisely
+                        <br /> sometimes indicates a lack of library knowledge
+                        <br /> you'll write something like this, treat it as a learning experience not "FP is unreadable."
+                    </aside>
+                </section>
+
+<!--
+                <section>
                     <h2></h2>
                     <p></p>
                     <aside class="notes">
                     </aside>
                 </section>
 
+Maybe mention Continued Language weaknesses
+immutable objects - findbugs/mutability detector
+-->
                 <section>
                     <h2>Summary</h2>
                     <ul>
-                        <li>Functional Thinking the biggest 'skill gap'</li>
+                        <li>Functional Thinking the most important thing to learn</li>
                         <li>Not Java specific at all</li>
                         <li>Requires Practise</li>
                     </ul>
@@ -496,10 +613,10 @@ reader.lines()
 
                 <section>
                     <h1>Conclusions</h1>
-
-<img src="imgs/steve-balmer-with-the-new-microsoft-surface-tablet.jpg" />
-
                     <ul>
+                        <li>Gone through a bunch of examples of specific issues</li>
+                        <li>‘Functional Thinking’: Not necessary to start learning.</li>
+                        <li>Try before you buy</li>
                     </ul>
 
                     <aside class="notes">
