@@ -159,6 +159,242 @@
                     </aside>
                 </section>
 
+<!-- slides 30 - 58 -->
+
+                <section>
+                    <h2>Overview of Lambdas</h2>
+                    <ul>
+                        <li>Goal: Better Libraries</li>
+                        <li>Example: Data Parallelism</li>
+                        <li>Approach: Allow Code as Data</li>
+                    </ul>
+                    <aside class="notes">
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Action Listener</h2>
+                    <pre><code>
+button.addActionListener(new ActionListener() {
+    public void actionPerformed(ActionEvent event) {
+        System.out.println("button clicked");
+    }
+});
+                    </code></pre>
+                    <aside class="notes">
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Code as Data</h2>
+                    <pre><code>
+button.addActionListener(
+    ?
+);
+                    </code></pre>
+                    <aside class="notes">
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Need a parameter</h2>
+                    <pre><code>
+button.addActionListener(event ->
+
+);
+                    </code></pre>
+                    <aside class="notes">
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Lambda Example</h2>
+                    <pre><code>
+button.addActionListener(event ->
+    System.out.println("button clicked")
+);
+                    </code></pre>
+                    <aside class="notes">
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>No parameters</h2>
+                    <pre><code>
+Runnable helloWorld =
+    () -> System.out.println("Hello World");
+                    </code></pre>
+                    <aside class="notes">
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Variable Capture</h2>
+                    <pre><code>
+String name = getUserName();
+button.addActionListener(event ->
+    System.out.println("hi " + name)
+);
+                    </code></pre>
+                    <aside class="notes">
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Functional Interfaces</h2>
+                    <ul>
+                        <li>Everything in Java has a type</li>
+                        <li>Problem: Need types to represent Functions</li>
+                        <li>Solution: Use interfaces</li>
+                    </ul>
+                    <aside class="notes">
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Functional Interfaces</h2>
+                    <pre><code>
+public interface ActionListener extends EventListener {
+    public void actionPerformed(ActionEvent event);
+}
+                    </code></pre>
+                    <aside class="notes">
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Functional Interfaces</h2>
+                    <ul>
+                        <li>Want to support automated Data Parallelism</li>
+                        <li>Construct for building computation pipelines</li>
+                        <li>Like an Iterator but with inversion of control</li>
+                    </ul>
+                    <aside class="notes">
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>External Iteration</h2>
+                    <pre><code>
+int count = 0;
+for (Artist artist : artists) {
+    if (artist.isFrom("London")) {
+        count++;
+    }
+}
+                    </code></pre>
+                    <aside class="notes">
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>External Iteration</h2>
+                    <pre><code>
+artists.stream()
+       .filter(artist -> artist.isFrom("London"));
+                    </code></pre>
+                    <aside class="notes">
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>map</h2>
+                    <img src="imgs/map.png" />
+                    <aside class="notes">
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>map</h2>
+                    <pre><code>
+List<String> collected =
+  Stream.of("a", "b", "hello")
+        .map(string -> string.toUpperCase())
+        .collect(toList());
+
+assertEquals(
+asList("A", "B", "HELLO"),
+collected);
+                    </code></pre>
+                    <aside class="notes">
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>reduce</h2>
+                    <img src="imgs/reduce.png" />
+                    <aside class="notes">
+                    </aside>
+                </section>
+                
+                <section>
+                    <h2>reduce</h2>
+                    <pre><code>
+int count =
+    Stream.of(1, 2, 3)
+          .reduce(0, (acc, x) -> acc + 1);
+
+assertEquals(3, count);
+                    </code></pre>
+                    <aside class="notes">
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>filter</h2>
+                    <img src="imgs/filter.png" />
+                    <aside class="notes">
+                    </aside>
+                </section>
+                
+                <section>
+                    <h2>filter</h2>
+                    <pre><code>
+List<String> beginningWithNumbers =   
+    Stream.of("a", "1abc", "abc1")
+          .filter(value -> isDigit(value.charAt(0)))
+          .collect(toList());
+
+assertEquals(
+asList("1abc"),
+beginningWithNumbers);
+                    </code></pre>
+                    <aside class="notes">
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Putting it all together</h2>
+                    <p>for a given an album, find the nationality of every band playing on that album</p>
+                    <aside class="notes">
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Putting it all together (2)</h2>
+                    <ol>
+                        <li>get all the artists for an album</li>
+                        <li>figure out which artists are bands</li>
+                        <li>find the nationalities of each band</li>
+                        <li>put together a list of these values</li>
+                    </ol>
+                    <aside class="notes">
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Putting it all together (3)</h2>
+                    <pre><code>
+List<String> origins =
+  album.getMusicians()
+       .filter(artist -> artist.getName().startsWith("The"))
+       .map(artist -> artist.getNationality())
+       .collect(toList());
+                    </code></pre>
+                    <aside class="notes">
+                    </aside>
+                </section>
+
                 <section data-transition="linear" data-background="#8c4738" data-background-transition="slide">
                     <h1>Beyond the Myths</h1>
                     <aside class="notes">
