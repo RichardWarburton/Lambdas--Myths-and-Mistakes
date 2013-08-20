@@ -497,11 +497,11 @@ Stream.of(1, 2, 3)
                             <li>Tuples</li>
                             <li>List construction syntax</li>
                         </ul>
-                        <li>Prior FP experience generated requrests for features.</li>
                     </ul>
                     <aside class="notes">
                         stolen vs adapted: frame of reference.  Reality is there's a lot of work to bring changes into Java 8.
                         <br /> Point is no Java dev I spoke to ever complained about the lack of higher kinded types.
+                        <br /> experienced fpers from other areas wanted features they were used to.
                         <br /> Not a good or bad feature change, just a different perspective.
                     </aside>
                 </section>
@@ -519,9 +519,9 @@ Stream.of(1, 2, 3)
                 </section>
                 
                 <section>
-                    <h2>Observation: Very little TDD</h2>
+                    <h2>Very little TDD</h2>
                     <ul>
-                        <li>Only a couple of developers used TDD</li>
+                        <li>Only a couple of developers used TDD or unit tests</li>
                         <li>Maybe a reflection on general TDD</li>
                         <li>Maybe unfamiliarity with testing functional code</li>
                     </ul>
@@ -597,7 +597,7 @@ list.stream()
     .filter(filteringFunction)
     .peek(e -> System.out.println("Filtered value: " + e));
     .map(mappingFunction)
-    .peek(e -> {});
+    .map(e -> e);
     .collect(toList());
                     </code></pre>
                     <aside class="notes">
@@ -626,7 +626,7 @@ consider example of comparator
                 </section>
 
                 <section>
-                    <h2>Introductory Example</h2>
+                    <h2>Comparators</h2>
                     <pre><code>
 Comparator<String> comparator = comparing(String::length);
 
@@ -695,8 +695,8 @@ public static <T>
                 </section>
 
                 <section>
-                    <h1>What do I mean by Functional Thinking?</h1>
-                    <p>Thinking in terms of the input:output relationship and not a sequence of steps</p>
+                    <h1>Functional Thinking?</h1>
+                    <p>Thinking in terms of the input to output relationship and not a sequence of steps</p>
                     <aside class="notes">
                         What is it?
                         <br /> Functional means different things to different communities
@@ -748,14 +748,11 @@ numbers.forEach(x -> {
                 </section>
 
                 <section>
-                    <h2>Ideal Solution (Today)</h2>
+                    <h2>Ideal Solution</h2>
                     <pre><code>
 reader.lines()
       .flatMap(s -> Stream.of(s.split(" ")))
       .collect(groupingBy(s -> s, counting()));
-
-// Map entries for "dad"
-// [ "dad", "dad", "dad" ] => [1, 1, 1] => 3
                     </pre></code>
                     <aside class="notes">
                         Explain code
@@ -765,11 +762,14 @@ reader.lines()
                 </section>
 
                 <section>
-                    <h2>Ideal Solution (At the time)</h2>
+                    <h2>Ideal Solution (then)</h2>
                     <pre><code>
 reader.lines()
       .flatMap(s -> Stream.of(s.split(" ")))
       .collect(groupingBy(s -> s, reducing(s -> 1, Integer::sum)));
+
+// Map entries for "dad"
+// [ "dad", "dad", "dad" ] => [1, 1, 1] => 3
                     </pre></code>
                     <aside class="notes">
                         Counting not originally there.
