@@ -34,6 +34,7 @@
 
 	<body>
 		<div class="reveal">
+        <!-- possibly make slides bigger -->
 			<div class="slides">
 
 				<section>
@@ -54,6 +55,7 @@
 					<aside class="notes">
                         Before we go into details ...
                         <br /> Explain quote
+                        <br /> What does he really mean: idioms and technique are what is important.
 					</aside>
 
 				</section>
@@ -76,10 +78,10 @@
                 <section>
                     <h1>Talk Structure</h1>
                     <ul>
-                        <li>Motivation</li>
+                        <li>Background and Motivation</li>
                         <li>Introduction to Lambda Expressions</li>
                         <li>Beyond the Myths</li>
-                        <li>Lessons</li>
+                        <li>Functional Thinking</li>
                     </ul>
                     <aside class="notes">
                         intro-ing in case there are people in the audience who don't know lambda expressions.
@@ -87,8 +89,67 @@
 				</section>
 
                 <section data-transition="linear" data-background="#007777" data-background-transition="slide">
-                    <h1>Motvation</h1>
+                    <h1>Background and Motvation</h1>
                     <aside class="notes">
+                        Why am I talking about this?
+                        <br /> How did I get here?
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Lambda Expressions are coming in Java 8!</h2>
+                    <aside class="notes">
+                        Also massively improved collections library
+                        <br /> Biggest change since generics
+                        <br /> Language changes relatively small, library changes are the important thing
+                        <br /> Language change enables library change
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Lots of discussion/debate</h2>
+                    <aside class="notes">
+                        Everyone has an opinion
+                        <br /> That's healthy
+                        <br /> Amount of irrelevant debate that goes on unhealthy, people shouting opinions
+                        <br /> problems are hard, need to balance specialist implementor knowledge with mass-market usecases
+                        <br /> lambda-dev was ineffective tool for discussion
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>How can we help?</h2>
+                    <p>Adopt-a-JSR</p>
+                    <aside class="notes">
+                        Community involvement and community driven standards.
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Adopt-a-JSR?</h2>
+                    <ul>
+                        <li>Community driven standards feedback</li>
+                        <li class="fragment highlight-blue">Hackdays</li>
+                        <li>Serve on Expert Groups</li>
+                        <li>Initiated by Martijn Verburg</li>
+                    </ul>
+                    <aside class="notes">
+                        Community involvement and community driven standards
+                        <br /> Opinions of one person not so relevant
+                        <br /> entire community is important - tough because people differ
+                        <br /> report feedback to EG
+                        <br /> trialled by James Gough and I on JSR-310.
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Some discussion unimportant</h2>
+                    <p>Concrete Examples focus discussion</p>
+                    <aside class="notes">
+                        A lot of the mistakes people made were similar
+                        <br /> similar to the mistakes I made, know several java champs similar mistake
+                        <br /> Conclusion: other people not at hackdays
+                        <br /> "We're not different you and I"
                     </aside>
                 </section>
 
@@ -105,7 +166,7 @@
                 </section>
 
                 <section>
-                    <h2>Claim: Syntax is the most important thing about Lambdas</h2>
+                    <h2>Claim: Syntax is the most important thing about Lambda Expressions</h2>
                     <aside class="notes">
                     </aside>
                 </section>
@@ -159,6 +220,7 @@
                     <img src="imgs/nessie.jpg" />
                     <aside class="notes">
                         People asked about the syntax but very little explanation and only a few examples were required.
+                        <br /> Vast amounts more thought going into type inference, type system changes and overload resolution.
                     </aside>
                 </section>
 
@@ -171,25 +233,186 @@
                 </section>
 
                 <section>
+                    <pre><code data-trim>
+// Originally invalid
+Stream.of(1, 2, 3)
+      .forEach(x -> System.out.println(x));
+
+// Required extra ;
+Stream.of(1, 2, 3)
+      .forEach(x -> System.out.println(x););
+                    </code></pre>
                     <aside class="notes">
-                        TODO: code example
+                        Tripped up loads of people
+                        <br />Incredibly confusing compiler message
+                        <br />Issue was that println returned void and was a statement
+                        <br />Need a ; at the end of statements
+                        <br />thankfully fixed after being reported
                     </aside>
                 </section>
 
                 <section>
-                    <h2></h2>
+                    <h2>Difference between expectations</h2>
+                    <ul>
+                        <li>Many language features <strike>stolen!</strike> adapted</li>
+                        <li>Missing Features
+                        <ul>
+                            <li>Stronger Type System</li>
+                            <li>Tuples</li>
+                            <li>List construction syntax</li>
+                        </ul>
+                        <li>Prior FP experience generated requrests for features.</li>
+                    </ul>
+                    <aside class="notes">
+                        stolen vs adapted: frame of reference.  Reality is there's a lot of work to bring changes into Java 8.
+                        <br /> Point is no Java dev I spoke to ever complained about the lack of higher kinded types.
+                        <br /> Not a good or bad feature change, just a different perspective.
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Framing Effect</h2>
+                    <p>Different reactions depending on whether something is presented as a loss or a gain.</p>
+                    <aside class="notes">
+                        Basic Psychology
+                        <br /> "Prospect theory shows that a loss is more significant than the equivalent gain"
+                        <br /> Coming from Scala: you might expect tuples and higher kinded types
+                        <br /> Coming from Java 7 you're happy with what's provided
+                        <br /> Also results in the general reaction from Scala devs that they aren't coming back
+                    </aside>
+                </section>
+                
+                <section>
+                    <h2>Observation: Very little TDD</h2>
+                    <ul>
+                        <li>Only a couple of developers used TDD</li>
+                        <li>Maybe a reflection on general TDD</li>
+                        <li>Maybe unfamiliarity with testing functional code</li>
+                    </ul>
+                    <aside class="notes">
+                        might be part of a hackday environment: experimentation not reliable code
+                        <br /> some people tried to do TDD
+                        <br /> theoretically functional code easier to test
+                        <br /> specification based testing
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>How do I test this?</h2>
+                    <pre><code>
+list.stream()
+    .map(x -> 1.0 / Math.ceil(1 + Math.pow(x) + Math.atan2(0, x)))
+    .collect(toList());
+                    </code></pre>
+                    <aside class="notes">
+                        Issue is that lambda expressions aren't reference-able.
+                        <br /> Say your lambda expression interacts with a database: how do you mock it?
+                        <br /> Anyone spot the subtle bug?
+                        <br /> atan2(0,0) is mathematically undefined, Java gives an answer
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Approach 1: Test whole function</h2>
+                    <ul>
+                        <li>Don't test the lambda</li>
+                        <li>Test the method its surrounded by</li>
+                        <li>Works well for simple lambdas</li>
+                    </ul>
+                    <aside class="notes">
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Approach 2: Extract Method</h2>
+                    <pre><code>
+double complexFunction(double x) {
+    return 1.0 / Math.ceil(1 + Math.pow(x) + Math.atan2(0, x));
+}
+
+list.stream()
+    .map(this::complexFunction)
+    .collect(toList());
+                    </code></pre>
+                    <aside class="notes">
+                        extract your lambda out to a function if its complex.
+                        <br /> Still get the code reuse and stream functionality through method references
+                        <br /> Method references really help testability for things like this.
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Mistake: debugging</h2>
+                    <pre><code>
+list.stream()
+    .filter(filteringFunction)
+    .map(mappingFunction)
+    .collect(toList());
+                    </code></pre>
+                    <aside class="notes">
+                        Issue is understanding intermediate values.
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>peek</h2>
+                    <pre><code>
+list.stream()
+    .filter(filteringFunction)
+    .peek(e -> System.out.println("Filtered value: " + e));
+    .map(mappingFunction)
+    .peek(e -> {});
+    .collect(toList());
+                    </code></pre>
+                    <aside class="notes">
+                        could also be logging output or debugger breakpoint.
+                        <br /> similar to the unix tee program.  Hands up.
+                    </aside>
+                </section>
+
+                <!-- MAYBE: -->
+                <!-- mention flatmap redesign? -->
+                <!-- Pulling into local variables vs chaining -->
+
+                <!--
+TODO:
+overload resolution + compiler errors
+consider example of comparator
+-->
+
+                <section>
+                    <h2>Summary</h2>
+                    <ul>
+                        <li>Syntax important, but not in the way people think</li>
+                        <li>New approaches for debugging and testing</li>
+                        <li>Take care of overloads and compiler error messages</li>
+                    </ul>
                     <aside class="notes">
                     </aside>
                 </section>
 
                 <section data-transition="linear" data-background="#4d7e65" data-background-transition="slide">
-                    <h1>Lessons</h1>
+                    <h1>Functional Thinking</h1>
                     <aside class="notes">
+                    </aside>
+                </section>
+                
+                <section>
+                    <h2>Summary</h2>
+                    <ul>
+                        <li>Functional Thinking the biggest 'skill gap'</li>
+                        <li>Not Java specific at all</li>
+                        <li>Requires Practise</li>
+                    </ul>
+                    <aside class="notes">
+                        Recognising the problem is the first step
                     </aside>
                 </section>
 
                 <section>
                     <h1>Conclusions</h1>
+
+<img src="imgs/steve-balmer-with-the-new-microsoft-surface-tablet.jpg" />
 
                     <ul>
                     </ul>
