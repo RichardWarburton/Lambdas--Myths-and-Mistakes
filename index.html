@@ -174,7 +174,7 @@
 
                 <section>
                     <h2>Action Listener</h2>
-                    <pre><code>
+                    <pre><code data-noescape>
 button.addActionListener(new ActionListener() {
     public void actionPerformed(ActionEvent event) {
         System.out.println("button clicked");
@@ -187,7 +187,7 @@ button.addActionListener(new ActionListener() {
 
                 <section>
                     <h2>Code as Data</h2>
-                    <pre><code>
+                    <pre><code data-noescape>
 button.addActionListener(
     ?
 );
@@ -198,7 +198,7 @@ button.addActionListener(
 
                 <section>
                     <h2>Need a parameter</h2>
-                    <pre><code>
+                    <pre><code data-noescape>
 button.addActionListener(event ->
 
 );
@@ -209,7 +209,7 @@ button.addActionListener(event ->
 
                 <section>
                     <h2>Lambda Example</h2>
-                    <pre><code>
+                    <pre><code data-noescape>
 button.addActionListener(event ->
     System.out.println("button clicked")
 );
@@ -220,7 +220,7 @@ button.addActionListener(event ->
 
                 <section>
                     <h2>No parameters</h2>
-                    <pre><code>
+                    <pre><code data-noescape>
 Runnable helloWorld =
     () -> System.out.println("Hello World");
                     </code></pre>
@@ -230,7 +230,7 @@ Runnable helloWorld =
 
                 <section>
                     <h2>Variable Capture</h2>
-                    <pre><code>
+                    <pre><code data-noescape>
 String name = getUserName();
 button.addActionListener(event ->
     System.out.println("hi " + name)
@@ -253,7 +253,7 @@ button.addActionListener(event ->
 
                 <section>
                     <h2>Functional Interfaces</h2>
-                    <pre><code>
+                    <pre><code data-noescape>
 public interface ActionListener extends EventListener {
     public void actionPerformed(ActionEvent event);
 }
@@ -275,7 +275,7 @@ public interface ActionListener extends EventListener {
 
                 <section>
                     <h2>External Iteration</h2>
-                    <pre><code>
+                    <pre><code data-noescape>
 int count = 0;
 for (Artist artist : artists) {
     if (artist.isFrom("London")) {
@@ -289,7 +289,7 @@ for (Artist artist : artists) {
 
                 <section>
                     <h2>External Iteration</h2>
-                    <pre><code>
+                    <pre><code data-noescape>
 artists.stream()
        .filter(artist -> artist.isFrom("London"));
                     </code></pre>
@@ -306,15 +306,12 @@ artists.stream()
 
                 <section>
                     <h2>map</h2>
-                    <pre><code>
-List<String> collected =
-  Stream.of("a", "b", "hello")
-        .map(string -> string.toUpperCase())
-        .collect(toList());
+                    <pre><code data-noescape>
+List<String> collected = Stream.of("a", "b", "hello")
+                               .map(string -> string.toUpperCase())
+                               .collect(toList());
 
-assertEquals(
-asList("A", "B", "HELLO"),
-collected);
+assertEquals(asList("A", "B", "HELLO"),collected);
                     </code></pre>
                     <aside class="notes">
                     </aside>
@@ -329,10 +326,9 @@ collected);
                 
                 <section>
                     <h2>reduce</h2>
-                    <pre><code>
-int count =
-    Stream.of(1, 2, 3)
-          .reduce(0, (acc, x) -> acc + 1);
+                    <pre><code data-noescape>
+int count = Stream.of(1, 2, 3)
+                  .reduce(0, (acc, x) -> acc + 1);
 
 assertEquals(3, count);
                     </code></pre>
@@ -349,7 +345,7 @@ assertEquals(3, count);
                 
                 <section>
                     <h2>filter</h2>
-                    <pre><code>
+                    <pre><code data-noescape>
 List<String> beginningWithNumbers =   
     Stream.of("a", "1abc", "abc1")
           .filter(value -> isDigit(value.charAt(0)))
@@ -384,7 +380,7 @@ beginningWithNumbers);
 
                 <section>
                     <h2>Putting it all together (3)</h2>
-                    <pre><code>
+                    <pre><code data-noescape>
 List<String> origins =
   album.getMusicians()
        .filter(artist -> artist.getName().startsWith("The"))
@@ -535,7 +531,7 @@ Stream.of(1, 2, 3)
 
                 <section>
                     <h2>How do I test this?</h2>
-                    <pre><code>
+                    <pre><code data-noescape>
 list.stream()
     .map(x -> 1.0 / Math.ceil(1 + Math.pow(x) + Math.atan2(0, x)))
     .collect(toList());
@@ -561,7 +557,7 @@ list.stream()
 
                 <section>
                     <h2>Approach 2: Extract Method</h2>
-                    <pre><code>
+                    <pre><code data-noescape>
 double complexFunction(double x) {
     return 1.0 / Math.ceil(1 + Math.pow(x) + Math.atan2(0, x));
 }
@@ -579,7 +575,7 @@ list.stream()
 
                 <section>
                     <h2>Mistake: debugging</h2>
-                    <pre><code>
+                    <pre><code data-noescape>
 list.stream()
     .filter(filteringFunction)
     .map(mappingFunction)
@@ -592,7 +588,7 @@ list.stream()
 
                 <section>
                     <h2>peek</h2>
-                    <pre><code>
+                    <pre><code data-noescape>
 list.stream()
     .filter(filteringFunction)
     .peek(e -> System.out.println("Filtered value: " + e));
@@ -627,7 +623,7 @@ consider example of comparator
 
                 <section>
                     <h2>Comparators</h2>
-                    <pre><code>
+                    <pre><code data-noescape>
 Comparator<String> comparator = comparing(String::length);
 
 Comparator<String> comparator = comparing(str -> str.length);
@@ -641,7 +637,7 @@ Comparator<String> comparator = comparing(str -> str.length);
 
                 <section>
                     <h2>Compiler Error</h2>
-                    <pre><code>
+                    <pre><code data-noescape>
 java: reference to comparing is ambiguous both
     method <T>comparing(java.util.function.ToIntFunction<? super T>) in java.util.Comparator and
     method <T,U>comparing(java.util.function.Function<? super T,? extends U>) in java.util.Comparator match
@@ -655,7 +651,7 @@ java: reference to comparing is ambiguous both
 
                 <section>
                     <h2>What happened?</h2>
-                    <pre><code>
+                    <pre><code data-noescape>
 // Generic object variant
 public static <T, U extends Comparable<? super U>>
     Comparator<T>
@@ -708,7 +704,7 @@ public static <T>
 
                 <section>
                     <h2>First code that people write</h2>
-                    <pre><code>
+                    <pre><code data-noescape>
 List<Integer> numbers = Arrays.asList(1, 2, 3);
 numbers.forEach(x -> {
     System.out.println(x);
@@ -749,7 +745,7 @@ numbers.forEach(x -> {
 
                 <section>
                     <h2>Ideal Solution</h2>
-                    <pre><code>
+                    <pre><code data-noescape>
 reader.lines()
       .flatMap(s -> Stream.of(s.split(" ")))
       .collect(groupingBy(s -> s, counting()));
@@ -763,7 +759,7 @@ reader.lines()
 
                 <section>
                     <h2>Ideal Solution (then)</h2>
-                    <pre><code>
+                    <pre><code data-noescape>
 reader.lines()
       .flatMap(s -> Stream.of(s.split(" ")))
       .collect(groupingBy(s -> s, reducing(s -> 1, Integer::sum)));
@@ -780,7 +776,7 @@ reader.lines()
 
                 <section>
                     <h2>Bad Solution (Part 1)</h2>
-                    <pre><code>
+                    <pre><code data-noescape>
 Map<String, List<String>> initial
       = br.lines()
           .flatMap(s -> Arrays.stream(s.split(" ")))
@@ -801,7 +797,7 @@ Integer>(entry.getKey(), entry.getValue().size()))
 
                 <section>
                     <h2>Bad Solution (Part 2)</h2>
-                    <pre><code>
+                    <pre><code data-noescape>
   Supplier<HashMap<String, Integer>> supplier = () -> new
 HashMap<String, Integer>();
   BiConsumer<HashMap<String, Integer>, Map.Entry<String, Integer>> accum =
