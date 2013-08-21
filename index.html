@@ -123,6 +123,9 @@
                     <aside class="notes">
                         Community involvement and community driven standards.
                     </aside>
+                    <aside class="notes">
+                        Poll if people have heard of it?
+                    </aside>
                 </section>
 
                 <section>
@@ -156,10 +159,10 @@
                 <section data-transition="linear" data-background="#4d7e65" data-background-transition="slide">
                     <h1>Introduction to Lambda Expressions</h1>
                     <aside class="notes">
+                        Poll people about to ask about whether they have tried out binaries and
+                        been following changes
                     </aside>
                 </section>
-
-<!-- slides 30 - 58 -->
 
                 <section>
                     <h2>Overview of Lambdas</h2>
@@ -169,6 +172,9 @@
                         <li>Approach: Allow Code as Data</li>
                     </ul>
                     <aside class="notes">
+                        Specific example
+                        <br /> threading model very tied in
+                        <br /> hard to abstract the what from the how
                     </aside>
                 </section>
 
@@ -182,6 +188,10 @@ button.addActionListener(new ActionListener() {
 });
                     </code></pre>
                     <aside class="notes">
+                        existing code as data solution
+                        <br /> aim: register a callback for when someone clicks a button
+                        <br /> familiar with anonymous inner classes
+                        <br /> bulky and verbose
                     </aside>
                 </section>
 
@@ -193,17 +203,21 @@ button.addActionListener(
 );
                     </code></pre>
                     <aside class="notes">
+                        outer method call is fine
+                        <br /> issue is what goes in the middle, something that represents an action.
                     </aside>
                 </section>
 
                 <section>
                     <h2>Need a parameter</h2>
                     <pre><code data-noescape>
-button.addActionListener(event ->
+button.addActionListener(event
 
 );
                     </code></pre>
                     <aside class="notes">
+                        well we know the that we're passing in something
+                        that gets given an event as a parameter
                     </aside>
                 </section>
 
@@ -215,6 +229,9 @@ button.addActionListener(event ->
 );
                     </code></pre>
                     <aside class="notes">
+                        <br /> previously required the type of the event
+                        <br /> can be inferred from context
+                        <br /> already in java 7: diamond operator
                     </aside>
                 </section>
 
@@ -225,6 +242,8 @@ Runnable helloWorld =
     () -> System.out.println("Hello World");
                     </code></pre>
                     <aside class="notes">
+                        also possible to infer the type from an assignment
+                        <br /> no arguments variant of a lambda
                     </aside>
                 </section>
 
@@ -237,6 +256,8 @@ button.addActionListener(event ->
 );
                     </code></pre>
                     <aside class="notes">
+                        improvement over final variable
+                        <br /> capturing non-final variables that are 'effectively final'.
                     </aside>
                 </section>
 
@@ -248,6 +269,8 @@ button.addActionListener(event ->
                         <li>Solution: Use interfaces</li>
                     </ul>
                     <aside class="notes">
+                        6 is an int
+                        <br /> new HashMap is a HashMap;
                     </aside>
                 </section>
 
@@ -259,6 +282,8 @@ public interface ActionListener extends EventListener {
 }
                     </code></pre>
                     <aside class="notes">
+                        here's the example method from earlier
+                        <br > single abstract method
                     </aside>
                 </section>
 
@@ -267,9 +292,12 @@ public interface ActionListener extends EventListener {
                     <ul>
                         <li>Want to support automated Data Parallelism</li>
                         <li>Construct for building computation pipelines</li>
-                        <li>Like an Iterator but with inversion of control</li>
+                        <li>Iterator with inversion of control</li>
                     </ul>
                     <aside class="notes">
+                        aim to seperate out the threading model
+                        <br /> provide high level operations which are composable and reusable
+                        <br /> not just beneficial for parallelism also makes code easier to read and reuse
                     </aside>
                 </section>
 
@@ -284,16 +312,23 @@ for (Artist artist : artists) {
 }
                     </code></pre>
                     <aside class="notes">
+                        familiar concept
+                        <br /> the control flow is driven by the code performing the operation
+                        <br /> can't do parallel iteration
                     </aside>
                 </section>
 
                 <section>
-                    <h2>External Iteration</h2>
+                    <h2>Internal Iteration</h2>
                     <pre><code data-noescape>
 artists.stream()
        .filter(artist -> artist.isFrom("London"));
                     </code></pre>
                     <aside class="notes">
+                        same code rewritten to use internal iteraion
+                        <br /> there's no visible iteration!
+                        <br /> iteration is delegated to the stream
+                        <br /> this is why its an inversion of control: stream knows how to iterate effectively.
                     </aside>
                 </section>
 
@@ -307,7 +342,7 @@ artists.stream()
                 <section>
                     <h2>map</h2>
                     <pre><code data-noescape>
-List<String> collected = Stream.of("a", "b", "hello")
+List&lt;String&gt; collected = Stream.of("a", "b", "hello")
                                .map(string -> string.toUpperCase())
                                .collect(toList());
 
@@ -346,14 +381,12 @@ assertEquals(3, count);
                 <section>
                     <h2>filter</h2>
                     <pre><code data-noescape>
-List<String> beginningWithNumbers =   
+List&lt;String&gt; beginningWithNumbers =   
     Stream.of("a", "1abc", "abc1")
           .filter(value -> isDigit(value.charAt(0)))
           .collect(toList());
 
-assertEquals(
-asList("1abc"),
-beginningWithNumbers);
+assertEquals(asList("1abc"), beginningWithNumbers);
                     </code></pre>
                     <aside class="notes">
                     </aside>
@@ -381,7 +414,7 @@ beginningWithNumbers);
                 <section>
                     <h2>Putting it all together (3)</h2>
                     <pre><code data-noescape>
-List<String> origins =
+List&lt;String&gt; origins =
   album.getMusicians()
        .filter(artist -> artist.getName().startsWith("The"))
        .map(artist -> artist.getNationality())
@@ -606,12 +639,6 @@ list.stream()
                 <!-- mention flatmap redesign? -->
                 <!-- Pulling into local variables vs chaining -->
 
-                <!--
-TODO:
-overload resolution + compiler errors
-consider example of comparator
--->
-
                 <section>
                     <h2>Compiler Error Messages</h2>
                     <aside class="notes">
@@ -624,9 +651,9 @@ consider example of comparator
                 <section>
                     <h2>Comparators</h2>
                     <pre><code data-noescape>
-Comparator<String> comparator = comparing(String::length);
+Comparator&lt;String&gt; comparator = comparing(String::length);
 
-Comparator<String> comparator = comparing(str -> str.length);
+Comparator&lt;String&gt; comparator = comparing(str -> str.length);
                     </code></pre>
                     <aside class="notes">
                         Comparator is a functional interface.
@@ -639,8 +666,11 @@ Comparator<String> comparator = comparing(str -> str.length);
                     <h2>Compiler Error</h2>
                     <pre><code data-noescape>
 java: reference to comparing is ambiguous both
-    method <T>comparing(java.util.function.ToIntFunction<? super T>) in java.util.Comparator and
-    method <T,U>comparing(java.util.function.Function<? super T,? extends U>) in java.util.Comparator match
+method
+&lt;T&gt;comparing(java.util.function.ToIntFunction&lt; ? super T&gt;)
+in java.util.Comparator and method
+&lt;T,U&gt;comparing(java.util.function.Function&lt; ? super T,? extends U&gt;)
+in java.util.Comparator match
                     </code></pre>
                     <aside class="notes">
                         Overload resolution failure.
@@ -653,14 +683,14 @@ java: reference to comparing is ambiguous both
                     <h2>What happened?</h2>
                     <pre><code data-noescape>
 // Generic object variant
-public static <T, U extends Comparable<? super U>>
-    Comparator<T>
-        comparing(Function<? super T, ? extends U> keyExtractor)
+public static &lt;T, U extends Comparable&lt; ? super U&gt;&gt;
+    Comparator&lt;T&gt;
+        comparing(Function&lt; ? super T, ? extends U&gt; keyExtractor)
 
 // Specialised primitive variant
-public static <T>
-    Comparator<T>
-        comparing(ToIntFunction<? super T> keyExtractor)
+public static &lt;T&gt;
+    Comparator&lt;T&gt;
+        comparing(ToIntFunction&lt; ? super T&gt; keyExtractor)
                     </code></pre>
                     <aside class="notes">
                         overloads are an issue
@@ -705,7 +735,7 @@ public static <T>
                 <section>
                     <h2>First code that people write</h2>
                     <pre><code data-noescape>
-List<Integer> numbers = Arrays.asList(1, 2, 3);
+List&lt;Integer&gt; numbers = Arrays.asList(1, 2, 3);
 numbers.forEach(x -> {
     System.out.println(x);
 });
@@ -776,7 +806,7 @@ reader.lines()
 
                 <section>
                     <h2>Bad Solution (Part 1)</h2>
-                    <pre><code data-noescape>
+                    <pre><code>
 Map<String, List<String>> initial
       = br.lines()
           .flatMap(s -> Arrays.stream(s.split(" ")))
@@ -797,7 +827,7 @@ Integer>(entry.getKey(), entry.getValue().size()))
 
                 <section>
                     <h2>Bad Solution (Part 2)</h2>
-                    <pre><code data-noescape>
+                    <pre><code>
   Supplier<HashMap<String, Integer>> supplier = () -> new
 HashMap<String, Integer>();
   BiConsumer<HashMap<String, Integer>, Map.Entry<String, Integer>> accum =
