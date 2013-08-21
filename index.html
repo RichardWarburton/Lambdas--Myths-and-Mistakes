@@ -576,7 +576,51 @@ Stream.of(1, 2, 3)
                         <br /> Also results in the general reaction from Scala devs that they aren't coming back
                     </aside>
                 </section>
-                
+
+                <section>
+                    <h2>Recall our earlier example</h2>
+                    <pre><code data-noescape>
+List&lt;String&gt; origins =
+  album.getMusicians()
+       .filter(artist -> artist.getName().startsWith("The"))
+       .map(artist -> artist.getNationality())
+       .collect(toList());
+                    </code></pre>
+                    <aside class="notes">
+                        Recall from earlier
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Eager vs Lazy (2)</h2>
+                    <pre><code data-noescape>
+  album.getMusicians()
+       .filter(artist -> artist.getName().startsWith("The"))
+       .map(artist -> artist.getNationality())
+                    </code></pre>
+                    <aside class="notes">
+                        does nothing
+                        <br /> Streams are really builders for collections
+                        <br /> people not at all understanding eager vs lazy was a common mistake
+                        <br /> nothing is constructed untill the last call
+                        <br /> just building up a recipe
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Eager vs Lazy (3)</h2>
+                    <pre><code data-noescape>
+  album.getMusicians()
+       .filter(artist -> artist.getName().startsWith("The"))
+       .map(artist -> artist.getNationality())
+       .collect(toList());
+                    </code></pre>
+                    <aside class="notes">
+                        say 'last in the chain' is easger
+                        <br /> key trick: anything that returns a Stream is lazy
+                    </aside>
+                </section>
+
                 <section>
                     <h2>Very little TDD</h2>
                     <ul>
@@ -608,7 +652,7 @@ list.stream()
                 </section>
 
                 <section>
-                    <h2>Approach 1: Test whole function</h2>
+                    <h2>Approach 1: Test surrounding function</h2>
                     <ul>
                         <li>Don't test the lambda</li>
                         <li>Test the method its surrounded by</li>
@@ -644,6 +688,14 @@ list.stream()
     .filter(filteringFunction)
     .map(mappingFunction)
     .collect(toList());
+
+List&lt;Bar&gt; bars = new ArrayList&lt;&gt;();
+for (Foo element : list) {
+    if (filteringFunction(element) {
+        Bar result = mappingFunction(element);
+        bars.add(result);
+    }
+}
                     </code></pre>
                     <aside class="notes">
                         Issue is understanding intermediate values.
@@ -790,8 +842,10 @@ numbers.forEach(x -> {
                     <h2>Example Problem</h2>
                     <p>Count the number of instances of each word in a document.</p>
                     <aside class="notes">
-                        Required understanding of the collectors abstraction.
-                        <br /> Given a stream of words as input.
+                        Example problem from the devoxx uk hackday
+                        <br /> nominally simple problem
+                        <br /> Required understanding of the collectors abstraction.
+                        <br /> Given a reader as input.
                     </aside>
                 </section>
 
