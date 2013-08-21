@@ -329,6 +329,7 @@ artists.stream()
                         <br /> there's no visible iteration!
                         <br /> iteration is delegated to the stream
                         <br /> this is why its an inversion of control: stream knows how to iterate effectively.
+                        <br /> you may call into streams, but they call you back, which lets them control the threading model.
                     </aside>
                 </section>
 
@@ -336,6 +337,8 @@ artists.stream()
                     <h2>map</h2>
                     <img src="imgs/map.png" />
                     <aside class="notes">
+                        briefly talk about a few different types of stream operation
+                        <br /> map: transform
                     </aside>
                 </section>
 
@@ -349,6 +352,9 @@ List&lt;String&gt; collected = Stream.of("a", "b", "hello")
 assertEquals(asList("A", "B", "HELLO"),collected);
                     </code></pre>
                     <aside class="notes">
+                        in code
+                        <br /> explain general form
+                        <br /> point out the toUpperCase()
                     </aside>
                 </section>
 
@@ -358,7 +364,7 @@ assertEquals(asList("A", "B", "HELLO"),collected);
                     <aside class="notes">
                     </aside>
                 </section>
-                
+
                 <section>
                     <h2>reduce</h2>
                     <pre><code data-noescape>
@@ -368,6 +374,7 @@ int count = Stream.of(1, 2, 3)
 assertEquals(3, count);
                     </code></pre>
                     <aside class="notes">
+                        remember to mention the sum()
                     </aside>
                 </section>
 
@@ -389,6 +396,7 @@ List&lt;String&gt; beginningWithNumbers =
 assertEquals(asList("1abc"), beginningWithNumbers);
                     </code></pre>
                     <aside class="notes">
+                        retain only strings whose first character is a digit.
                     </aside>
                 </section>
 
@@ -396,16 +404,17 @@ assertEquals(asList("1abc"), beginningWithNumbers);
                     <h2>Putting it all together</h2>
                     <p>for a given an album, find the nationality of every band playing on that album</p>
                     <aside class="notes">
+                        go through a worked example of how to put together a pipeline
+                        of stream operations.
                     </aside>
                 </section>
 
                 <section>
                     <h2>Putting it all together (2)</h2>
                     <ol>
-                        <li>get all the artists for an album</li>
+                        <li>transform an album into its artists</li>
                         <li>figure out which artists are bands</li>
                         <li>find the nationalities of each band</li>
-                        <li>put together a list of these values</li>
                     </ol>
                     <aside class="notes">
                     </aside>
@@ -602,6 +611,7 @@ list.stream()
                     <aside class="notes">
                         extract your lambda out to a function if its complex.
                         <br /> Still get the code reuse and stream functionality through method references
+                        <br /> remember to explain what a method reference is.
                         <br /> Method references really help testability for things like this.
                     </aside>
                 </section>
