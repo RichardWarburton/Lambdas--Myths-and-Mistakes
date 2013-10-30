@@ -296,10 +296,10 @@ public interface ActionListener extends EventListener {
                 </section>
 
                 <section>
-                    <h2>Functional Interfaces</h2>
+                    <h2>Streams</h2>
                     <ul>
-                        <li>Want to support automated Data Parallelism</li>
-                        <li>Construct for building computation pipelines</li>
+                        <li>Support automated data parallelism</li>
+                        <li>Build computation pipelines</li>
                         <li>Iterator with inversion of control</li>
                     </ul>
                     <aside class="notes">
@@ -330,7 +330,8 @@ for (Artist artist : artists) {
                     <h2>Internal Iteration</h2>
                     <pre><code data-noescape>
 artists.stream()
-       .filter(artist -> artist.isFrom("London"));
+       .filter(artist -> artist.isFrom("London"))
+       .count();
                     </code></pre>
                     <aside class="notes">
                         same code rewritten to use internal iteraion
@@ -357,10 +358,11 @@ List&lt;String&gt; collected = Stream.of("a", "b", "hello")
                                .map(string -> string.toUpperCase())
                                .collect(toList());
 
-assertEquals(asList("A", "B", "HELLO"),collected);
+assertEquals(asList("A", "B", "HELLO"), collected);
                     </code></pre>
                     <aside class="notes">
                         in code
+                        <br /> Explain Stream.of
                         <br /> explain general form
                         <br /> point out the toUpperCase()
                     </aside>
@@ -376,10 +378,10 @@ assertEquals(asList("A", "B", "HELLO"),collected);
                 <section>
                     <h2>reduce</h2>
                     <pre><code data-noescape>
-int count = Stream.of(1, 2, 3)
-                  .reduce(0, (acc, x) -> acc + 1);
+int sum = Stream.of(1, 2, 3, 4)
+                .reduce(0, (acc, x) -> acc + x);
 
-assertEquals(3, count);
+assertEquals(10, sum);
                     </code></pre>
                     <aside class="notes">
                         remember to mention the sum()
@@ -448,7 +450,6 @@ List&lt;String&gt; origins =
                     <h2>Method References</h2>
                     <pre><code data-noescape>
 str -> str.length
-
 String::length
 
 x -> foo.bar(x)
@@ -605,6 +606,9 @@ List&lt;String&gt; origins =
   album.getMusicians()
        .filter(artist -> artist.getName().startsWith("The"))
        .map(artist -> artist.getNationality())
+
+// What's happened?
+       .collect(toList());
                     </code></pre>
                     <aside class="notes">
                         does nothing
@@ -612,29 +616,31 @@ List&lt;String&gt; origins =
                         <br /> people not at all understanding eager vs lazy was a common mistake
                         <br /> nothing is constructed untill the last call
                         <br /> just building up a recipe
+                        <br /> key trick: anything that returns a Stream is lazy
                     </aside>
                 </section>
 
+<!--
                 <section>
                     <h2>Eager vs Lazy (3)</h2>
                     <pre><code data-noescape>
   album.getMusicians()
        .filter(artist -> artist.getName().startsWith("The"))
        .map(artist -> artist.getNationality())
-       .collect(toList());
                     </code></pre>
                     <aside class="notes">
                         say 'last in the chain' is easger
-                        <br /> key trick: anything that returns a Stream is lazy
                     </aside>
                 </section>
+-->
 
                 <section>
-                    <h2>Very little TDD</h2>
+                    <h2>Very little Testing</h2>
+                    <p>Maybe ...</p>
                     <ul>
-                        <li>Only a couple of developers used TDD or unit tests</li>
-                        <li>Maybe a reflection on general TDD</li>
-                        <li>Maybe unfamiliarity with testing functional code</li>
+                        <li>a reflection on popularity of TDD</li>
+                        <li>spikes are good for learning</li>
+                        <li>unfamiliarity with testing lambdas</li>
                     </ul>
                     <aside class="notes">
                         might be part of a hackday environment: experimentation not reliable code
@@ -648,7 +654,7 @@ List&lt;String&gt; origins =
                     <h2>How do I test this?</h2>
                     <pre><code data-noescape>
 list.stream()
-    .map(x -> 1.0 / Math.ceil(1 + Math.pow(x) + Math.atan2(0, x)))
+    .map(x -> 1.0 / Math.ceil(1 + Math.pow(x) + Math.atan2(y, x)))
     .collect(toList());
                     </code></pre>
                     <aside class="notes">
@@ -656,11 +662,12 @@ list.stream()
                         <br /> Say your lambda expression interacts with a database: how do you mock it?
                         <br /> Anyone spot the subtle bug?
                         <br /> atan2(0,0) is mathematically undefined, Java gives an answer
+                        <br /> NaN return, +ve/-ve 0, 10 infinity related special cases
                     </aside>
                 </section>
 
                 <section>
-                    <h2>Approach 1: Test surrounding function</h2>
+                    <h2>Approach 1: Test surrounding method</h2>
                     <ul>
                         <li>Don't test the lambda</li>
                         <li>Test the method its surrounded by</li>
@@ -692,11 +699,13 @@ list.stream()
                 <section>
                     <h2>Mistake: debugging</h2>
                     <pre><code data-noescape>
+// Streams
 list.stream()
     .filter(filteringFunction)
     .map(mappingFunction)
     .collect(toList());
 
+// Ye olde for loop
 List&lt;Bar&gt; bars = new ArrayList&lt;&gt;();
 for (Foo element : list) {
     if (filteringFunction(element) {
@@ -957,7 +966,7 @@ immutable objects - findbugs/mutability detector
                 <section>
                     <h2>Summary</h2>
                     <ul>
-                        <li>Functional Thinking the most important thing to learn</li>
+                        <li>Idioms are vital</li>
                         <li>Not Java specific at all</li>
                         <li>Requires Practise</li>
                     </ul>
@@ -981,6 +990,7 @@ immutable objects - findbugs/mutability detector
                 <section>
                     <h1>Questions?</h1>
                     <p>@RichardWarburto<p>
+                    <p><a href="http://jclarity.com">http://jclarity.com</a></p>
                     <p><a href="http://insightfullogic.com">http://insightfullogic.com</a></p>
                     <p><a href="https://github.com/RichardWarburton/">https://github.com/RichardWarburton/</a></p>
                 </section>
