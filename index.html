@@ -867,20 +867,12 @@ numbers.forEach(x -> {
                 </section>
 
                 <section>
-                    <h2>Example Problem</h2>
-                    <img src="imgs/stephen-colebourne.jpg" />
-                    <aside class="notes">
-                        <br /> emphasize he’s a really good programmer, conference speaker, jodatime author
-                        <br /> mention annecdote with stuart marks' laptop
-                    </aside>
-                </section>
-
-                <section>
                     <h2>Ideal Solution</h2>
                     <pre><code data-noescape>
 reader.lines()
-      .flatMap(s -> Stream.of(s.split(" ")))
-      .collect(groupingBy(s -> s, counting()));
+      .flatMap(s -> s.splitAsStream(" "))
+      .collect(groupingBy(s -> s, 
+               counting()));
                     </pre></code>
                     <aside class="notes">
                         Explain code
@@ -894,7 +886,8 @@ reader.lines()
                     <pre><code data-noescape>
 reader.lines()
       .flatMap(s -> Stream.of(s.split(" ")))
-      .collect(groupingBy(s -> s, reducing(s -> 1, Integer::sum)));
+      .collect(groupingBy(s -> s,
+               reducing(s -> 1, Integer::sum)));
 
 // Map entries for "dad"
 // [ "dad", "dad", "dad" ] => [1, 1, 1] => 3
@@ -908,16 +901,16 @@ reader.lines()
 
                 <section>
                     <h2>Bad Solution (Part 1)</h2>
-                    <pre><code>
-Map<String, List<String>> initial
+                    <pre><code data-noescape>
+Map&lt;String, List&lt;String&gt;&gt; initial
       = br.lines()
           .flatMap(s -> Arrays.stream(s.split(" ")))
           .collect(groupingBy(s -> s));
   
-  Map<Map.Entry<String, Integer>, Integer> freq1 = initial
+  Map&lt;Map.Entry&lt;String, Integer&gt;, Integer&gt; freq1 = initial
     .entrySet().stream()
-    .map(entry -> new AbstractMap.SimpleImmutableEntry<String,
-Integer>(entry.getKey(), entry.getValue().size()))
+    .map(entry -> new AbstractMap.SimpleImmutableEntry&lt;String,
+Integer&gt;(entry.getKey(), entry.getValue().size()))
     .collect(Collectors.toMap(entry -> entry.getValue()));
                     </pre></code>
                     <aside class="notes">
@@ -930,17 +923,17 @@ Integer>(entry.getKey(), entry.getValue().size()))
                 <section>
                     <h2>Bad Solution (Part 2)</h2>
                     <pre><code>
-  Supplier<HashMap<String, Integer>> supplier = () -> new
-HashMap<String, Integer>();
-  BiConsumer<HashMap<String, Integer>, Map.Entry<String, Integer>> accum =
-    (HashMap<String, Integer> result, Map.Entry<String, Integer>
+  Supplier&lt;HashMap&lt;String, Integer&gt;&gt; supplier = () -&gt; new
+HashMap&lt;String, Integer&gt;();
+  BiConsumer&lt;HashMap&lt;String, Integer&gt;, Map.Entry&lt;String, Integer&gt;&gt; accum =
+    (HashMap&lt;String, Integer&gt; result, Map.Entry&lt;String, Integer&gt;
 entry) -> result.put(entry.getKey(), entry.getValue());
-  BiConsumer<HashMap<String, Integer>, HashMap<String, Integer>>
+  BiConsumer&lt;HashMap&lt;String, Integer&gt;, HashMap&lt;String, Integer&gt;&gt;
 merger = HashMap::putAll;
 
-  Map<String, Integer> freq2 = initial.entrySet().stream()
-    .map(entry -> new AbstractMap.SimpleImmutableEntry<String,
-Integer>(entry.getKey(), entry.getValue().size()))
+  Map&lt;String, Integer&gt; freq2 = initial.entrySet().stream()
+    .map(entry -> new AbstractMap.SimpleImmutableEntry&lt;String,
+Integer&gt;(entry.getKey(), entry.getValue().size()))
     .collect(supplier, accum, merger);
                     </pre></code>
                     <aside class="notes">
@@ -949,6 +942,15 @@ Integer>(entry.getKey(), entry.getValue().size()))
                         <br /> also, choose first steps wisely
                         <br /> sometimes indicates a lack of library knowledge
                         <br /> you'll write something like this, treat it as a learning experience not "FP is unreadable."
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>This takes thought</h2>
+                    <img src="imgs/stephen-colebourne.jpg" />
+                    <aside class="notes">
+                        <br /> emphasize he’s a really good programmer, conference speaker, jodatime author, JSR lead and EG member
+                        <br /> mention annecdote with stuart marks' laptop
                     </aside>
                 </section>
 
@@ -963,7 +965,8 @@ Integer>(entry.getKey(), entry.getValue().size()))
 Maybe mention Continued Language weaknesses
 immutable objects - findbugs/mutability detector
 -->
-                <section>
+
+<section>
                     <h2>Summary</h2>
                     <ul>
                         <li>Idioms are vital</li>
