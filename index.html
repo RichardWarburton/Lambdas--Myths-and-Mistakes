@@ -48,12 +48,17 @@
                 <!-- TODO: identify missing brackets-->
                 <!-- TODO: obtain feedback from mv-->
 
-				<section>
-                    <blockquote>
+<!--
                         Learning FP is so much more than just knowing what map/fold/filter/etc. do. 
                         It's more like getting good at Portal :)
+                        -->
+
+				<section>
+                    <blockquote>
+                        the critical design tool for software development is a mind well educated in design principles.
+                        It is not ... technology.
                     </blockquote>
-                    <p>@copumpkin</p>
+                    <p>Craig Larman</p>
 
 					<aside class="notes">
                         Before we go into details ...
@@ -62,14 +67,15 @@
 					</aside>
 
 				</section>
-				
+			
+                <!-- TODO: use jclarity logo -->
                 <section>
                     <h2>Who am I?</h2>
                     <ul>
-                        <li class="fragment roll-in">Currently work at jClarity</li>
-                        <li class="fragment roll-in">Focus on performance diagnostics and static analysis</li>
-                        <li class="fragment roll-in">Adopt a JSR (Date and Time + Lambdas)</li>
-                        <li class="fragment roll-in">Writing a book for O'Reilly Media on Lambda Expressions in Java 8.</li>
+                        <li>Currently work at jClarity</li>
+                        <li>Focus on Performance Tuning</li>
+                        <li>Adopt a JSR (Date and Time + Lambdas)</li>
+                        <li>Impending O'Reilly book on Lambda Expressions in Java 8.</li>
                     </ul>
 
                     <aside class="notes">
@@ -81,8 +87,8 @@
                 <section>
                     <h1>Talk Structure</h1>
                     <ul>
-                        <li>Background and Motivation</li>
-                        <li>Introduction to Lambda Expressions</li>
+                        <li>Why am I talking about this?</li>
+                        <li>Intro to Lambda Expressions</li>
                         <li>Beyond the Myths</li>
                         <li>Functional Thinking</li>
                     </ul>
@@ -92,9 +98,8 @@
 				</section>
 
                 <section data-transition="linear" data-background="#007777" data-background-transition="slide">
-                    <h1>Background and Motvation</h1>
+                    <h1>Why am I talking about this?</h1>
                     <aside class="notes">
-                        Why am I talking about this?
                         <br /> How did I get here?
                     </aside>
                 </section>
@@ -110,7 +115,7 @@
                 </section>
 
                 <section>
-                    <h2>Lots of discussion/debate</h2>
+                    <h2>lots of discussion/debate</h2>
                     <aside class="notes">
                         Everyone has an opinion
                         <br /> That's healthy
@@ -134,10 +139,9 @@
                 <section>
                     <h2>Adopt-a-JSR?</h2>
                     <ul>
-                        <li>Community driven standards feedback</li>
+                        <li>More community driven standards</li>
                         <li class="fragment highlight-blue">Hackdays</li>
                         <li>Serve on Expert Groups</li>
-                        <li>Initiated by Martijn Verburg</li>
                     </ul>
                     <aside class="notes">
                         Community involvement and community driven standards
@@ -160,7 +164,7 @@
                 </section>
 
                 <section data-transition="linear" data-background="#4d7e65" data-background-transition="slide">
-                    <h1>Introduction to Lambda Expressions</h1>
+                    <h1>Intro to Lambda Expressions</h1>
                     <aside class="notes">
                         Poll people about to ask about whether they have tried out binaries and
                         been following changes
@@ -171,7 +175,7 @@
                     <h2>Overview of Lambdas</h2>
                     <ul>
                         <li>Goal: Better Libraries</li>
-                        <li>Example: Data Parallelism</li>
+                        <li>Example: Collections with Data Parallelism</li>
                         <li>Approach: Allow Code as Data</li>
                     </ul>
                     <aside class="notes">
@@ -190,6 +194,7 @@ button.addActionListener(new ActionListener() {
     }
 });
                     </code></pre>
+                    <!--<img width="300" height="200" src="imgs/54234567.jpg">-->
                     <aside class="notes">
                         existing code as data solution
                         <br /> aim: register a callback for when someone clicks a button
